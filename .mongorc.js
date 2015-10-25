@@ -7,7 +7,8 @@ try {
 			throw(new Error(""));
 		} catch (e) {
 			s = (e.stack);
-			var _homedir = s.replace(/(.|\n)*at (.*)\.mongorc\.js:[0-9]+:[0-9]+$/, "$2");
+			//print(s);  // debug
+			var _homedir = s.replace(/(.|\n)*(at |@)(.*)\.mongorc\.js:[0-9]+:[0-9]+(.|\n)*$/, "$3");
 		}
 	}
 
