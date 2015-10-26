@@ -2,11 +2,17 @@
 //////////////////////////////////////////////////////////////////////////
 //
 // Interactive usage:
+//
 //     > time db.whatever.blahblah()
 //     > time foo(); bar(); baz()
+//
 // Same as if "db.whatever.blahblah()" or "foo(); bar(); baz()" were
 // executed interactively, except that on completion the elapsed time
 // will be printed when the prompt is next displayed.
+//
+// Note: if the line contains a " character, then the shell won't run this code.
+// Use ' to delimit your strings instead.
+// https://github.com/mongodb/mongo/blob/52294f76710c4c891aebfe594f4ec8029b8c4e8c/src/mongo/shell/dbshell.cpp#L856
 //
 // Script usage:
 // time_start();
