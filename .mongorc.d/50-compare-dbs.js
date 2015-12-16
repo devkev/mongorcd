@@ -28,9 +28,19 @@ compareDbs = function (db1, db2, db3) {
 				}
 			}
 
-			var s = "||    Collection" + genstr(maxCollLen - 10, " ") + " || ";
+			var jiraSame = "";
+			var jiraDiff = "";
+			var jiraEnd = "";
+			var jiraFudge = 0;
+			if (compareDbs._jiraMode) {
+				jiraSame = "{color:green}";
+				jiraDiff = "  {color:red}";
+				jiraEnd  = "{color}";
+			}
+
+			var s = "||   " + genstr(jiraSame.length, " ") + " Collection" + genstr(maxCollLen + jiraEnd.length - 10, " ") + " || ";
 			for (var i in dbs) {
-				s = s + dbs[i].getName() + genstr(32 - dbs[i].getName().length, " ") + " || ";
+				s = s + genstr(jiraSame.length, " ") + dbs[i].getName() + genstr(32 + jiraEnd.length - dbs[i].getName().length, " ") + " || ";
 			}
 			print(s);
 
@@ -52,9 +62,9 @@ compareDbs = function (db1, db2, db3) {
 					}
 				}
 
-				var s = "| " + (same ? "(/) " : "(x) ") + c + genstr(maxCollLen - c.length, " ") + " |  ";
+				var s = "| " + (same ? jiraSame : jiraDiff) + (same ? "(/) " : "(x) ") + c + jiraEnd + genstr(maxCollLen - c.length, " ") + " |  ";
 				for (var i in dbs) {
-					s = s + this[c][dbs[i]] + " |  ";
+					s = s + (same ? jiraSame : jiraDiff) + this[c][dbs[i]] + jiraEnd + " |  ";
 				}
 				var color = same ? green : red;
 				print(color + s + normal);
@@ -66,5 +76,7 @@ compareDbs = function (db1, db2, db3) {
 	return res;
 
 };
+
+compareDbs._jiraMode = false;
 
 
