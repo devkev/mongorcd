@@ -64,11 +64,11 @@ rs.status = function () {
 	var s = db._adminCommand("replSetGetStatus");
 	if (s && s.members) {
 		var latest_optime = s.members.filter(function (x) { return x.optime; })
-		                             .map(function (x) { return x.optime.getTime(); } )
+		                             .map(function (x) { return (x.optime.ts ? x.optime.ts : x.optime).getTime(); } )
 		                             .sort().reverse()[0];
 		s.members.map(function (x) {
 			if (x.optime) {
-				x.repllag = latest_optime - x.optime.getTime();
+				x.repllag = latest_optime - (x.optime.ts ? x.optime.ts : x.optime).getTime();
 				x.repllagHrs = x.repllag / (60 * 60);
 			}
 		} );
