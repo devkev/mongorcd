@@ -722,6 +722,11 @@ Object.defineProperty(Code.prototype, "toExtendedJSON", { enumerable: false, con
 // FIXME: search for other types that implement .tojson()
 // eg. DB, DBCollection
 
+// NumberDecimal
+
+// WriteConcern
+// ReadConcern?
+
 
 
 /////////////////
