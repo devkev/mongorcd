@@ -170,7 +170,7 @@ Object.defineProperty(Object.prototype, "toExtendedJSON", { enumerable: false, c
 			var lineEnd = _defaultFalse(options.oneLine) ? " " : "\n";
 			var indent = _defaultFalse(options.oneLine) ? "" : options.indentStr;
 			// FIXME: ability to specify a different baseIndentStr (eg. you want to indent by 2 spaces each level, but start at 13 spaces (eg. SERVER-19076)).
-			var baseIndentStr = _defaultFalse(options.oneLine) ? "" : genstr(options.indentLevel, indent);
+			var baseIndentStr = _defaultFalse(options.oneLine) ? "" : (new Array(options.indentLevel + 1)).join(indent);
 
 			// support _simplekeys() for the crazy objects that have it (currently only MapReduceResult).
 			var keys = this;
@@ -241,7 +241,7 @@ Object.defineProperty(Array.prototype, "toExtendedJSON", { enumerable: false, co
 			var lineEnd = _defaultFalse(options.oneLine) ? " " : "\n";
 			var indent = _defaultFalse(options.oneLine) ? "" : options.indentStr;
 			// FIXME: ability to specify a different baseIndentStr (eg. you want to indent by 2 spaces each level, but start at 13 spaces (eg. SERVER-19076)).
-			var baseIndentStr = _defaultFalse(options.oneLine) ? "" : genstr(options.indentLevel, indent);
+			var baseIndentStr = _defaultFalse(options.oneLine) ? "" : (new Array(options.indentLevel + 1)).join(indent);
 
 			var fieldStrs = [];
 			options.indentLevel++;
