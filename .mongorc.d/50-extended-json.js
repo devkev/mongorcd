@@ -692,24 +692,26 @@ Object.defineProperty(RegExp.prototype, "toExtendedJSON", { enumerable: false, c
 // Code
 /////////////////
 
-Object.defineProperty(Code.prototype, "toExtendedJSON", { enumerable: false, configurable: true, value: function (options) {
-	return xJSON._dispatch(this, options, {
-		"shell" : function (options) {
-            if (this.scope === undefined) {
-			    return "Code(\"" + this.code + "\")";
-            } else {
-			    return "Code(\"" + this.code + "\", " + xJSON.stringify(this.scope) + ")";
-            }
-		},
-		"strict" : function (options) {
-            if (this.scope === undefined) {
-			    return xJSON.stringify( { "$code" : this.code }, Object.merge(options, { oneLine: true }) );
-            } else {
-			    return xJSON.stringify( { "$code" : this.code, "$scope" : this.scope }, Object.merge(options, { oneLine: true }) );
-            }
-		}
-	});
-} } );
+if (typeof Code !== "undefined") {
+	Object.defineProperty(Code.prototype, "toExtendedJSON", { enumerable: false, configurable: true, value: function (options) {
+		return xJSON._dispatch(this, options, {
+			"shell" : function (options) {
+				if (this.scope === undefined) {
+					return "Code(\"" + this.code + "\")";
+				} else {
+					return "Code(\"" + this.code + "\", " + xJSON.stringify(this.scope) + ")";
+				}
+			},
+			"strict" : function (options) {
+				if (this.scope === undefined) {
+					return xJSON.stringify( { "$code" : this.code }, Object.merge(options, { oneLine: true }) );
+				} else {
+					return xJSON.stringify( { "$code" : this.code, "$scope" : this.scope }, Object.merge(options, { oneLine: true }) );
+				}
+			}
+		});
+	} } );
+}
 
 
 
