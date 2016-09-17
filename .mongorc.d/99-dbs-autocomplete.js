@@ -69,6 +69,6 @@ DBS.autocomplete = function (obj) {
 	return obj._dblist;
 };
 
-if (db) {
+if (typeof db !== "undefined") {
 	dbs = new DBS(db.getMongo());
 }
