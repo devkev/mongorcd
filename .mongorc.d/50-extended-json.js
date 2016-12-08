@@ -725,6 +725,8 @@ if (typeof Code !== "undefined") {
 // eg. DB, DBCollection
 
 // NumberDecimal
+// https://github.com/mongodb/specifications/blob/master/source/bson-decimal128/decimal128.rst#reading-from-extended-json
+// https://github.com/mongodb/specifications/blob/master/source/bson-decimal128/decimal128.rst#writing-to-extended-json
 
 // WriteConcern
 // ReadConcern?
