@@ -78,5 +78,5 @@ prompt = function() {
 
 shellHelper.time = function (cmd) {
 	time();
-	printjson(eval(cmd));
+	shellPrint(eval(cmd));
 };
