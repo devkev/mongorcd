@@ -36,8 +36,8 @@ if (sh) {
 		return sh.enableSharding(this.getName());
 	};
 
-	DBCollection.prototype.shardCollection = function (key, unique) {
-		return sh.shardCollection(this.getFullName(), key, unique);
+	DBCollection.prototype.shardCollection = function (key, unique, options) {
+		return sh.shardCollection(this.getFullName(), key, unique, options);
 	};
 
 	DBCollection.prototype.moveChunk = function (find, to) {
