@@ -7,10 +7,23 @@ shellHelper.grep = function (cmd) {
 
 	// parse options/pattern
 
-	// FIXME: do this properly with https://github.com/substack/node-shell-quote
-	// requires a way of importing node.js modules into the shell.
+	try {
+		// do this properly with https://github.com/substack/node-shell-quote
+		// FIXME: still doesn't work in common cases, because the parser output ends up like:
+		// [ ": false", "db.getParameter", { "op" : "(" }, { "op" : ")" } ]
+		var parse = require('shell-quote').parse;
+		var parser = function (str) {
+			return parse(str);
+		};
+	} catch (e) {
+		// crappy fallback
+		print("grep: Warning: Unable to load `shell-quote` module");
+		var parser = function (str) {
+			return str.split(" ");
+		};
+	}
+	var words = parser(cmd);
 
-	var words = cmd.split(" ");
 	var i = 0;
 	while (i < words.length) {
 		if (words[i] == "-i") {
