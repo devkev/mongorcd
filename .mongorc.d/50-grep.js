@@ -1,4 +1,6 @@
-shellHelper.grep = function (cmd) {
+shellHelper.grep = (function () {
+
+return function (cmd) {
 	var hlStart = "\033[01;31m\033[K";   // red
 	var hlEnd = "\033[m\033[K";          // clear
 
@@ -66,4 +68,6 @@ shellHelper.grep = function (cmd) {
 		}
 	}
 };
+
+})();
 
