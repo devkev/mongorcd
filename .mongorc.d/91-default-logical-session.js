@@ -16,24 +16,26 @@ var _sessionify = function (_db) {
 };
 
 
-if (typeof(db) != "undefined") {
+if ( (typeof(DriverSession) === "function") && (typeof(_shouldUseImplicitSessions) !== "function" || ! _shouldUseImplicitSessions()) ) {
 
-	// It can sometimes be useful to do ops outside of any logical session.
-	// So hang onto the original db for that purpose.
-	// If in the future the default db gets a session, then this will stop working
-	// (and we'll have to figure out how to do it the right way).
-	_db = db;
+	if (typeof(db) != "undefined") {
 
-	// The main `db` object (if there is one).
-	db = _sessionify(db);
+		// It can sometimes be useful to do ops outside of any logical session.
+		// So hang onto the original db for that purpose.
+		// If in the future the default db gets a session, then this will stop working
+		// (and we'll have to figure out how to do it the right way).
+		_db = db;
 
+		// The main `db` object (if there is one).
+		db = _sessionify(db);
+
+	}
+
+
+	// Any new db objects created via `connect()`.
+	_connect = connect;
+	connect = function (...args) {
+		return _sessionify(_connect.apply(null, args));
+	};
 }
-
-
-// Any new db objects created via `connect()`.
-_connect = connect;
-connect = function (...args) {
-	return _sessionify(_connect.apply(null, args));
-};
-
 
