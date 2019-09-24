@@ -1,4 +1,4 @@
-// Usage:
+// Interactive usage:
 //
 //  > fp
 //      Print the list of available failpoints with their current values
@@ -23,6 +23,26 @@
 //
 //  > fp.foobar.off()
 //      Disable `foobar` failpoint
+//
+//
+// Script usage:
+//
+//  fp.foobar.get()
+//      Return the current settings for the `foobar` failpoint
+//
+//  fp.foobar.alwaysOn().set()
+//  fp.foobar.on().set()
+//  fp.foobar.times(n).set()
+//  fp.foobar.alwaysOn().data( { ... } ).set()
+//  fp.foobar.on().data( { ... } ).set()
+//  fp.foobar.times(n).data( { ... } ).set()
+//      Enable `foobar` failpoint, return cmd result
+//
+//  fp.foobar.off().set()
+//      Disable `foobar` failpoint, return cmd result
+//
+//  for (let f of fp._list) { ... }
+//      Iterate over all failpoint names
 
 
 function FailPoint(name, curr) {
@@ -66,20 +86,32 @@ FailPoint.prototype.toString = function() {
     return "Failpoint " + this._name + ": " + tojson(this._curr);
 };
 
-FailPoint.prototype.shellPrint = function() {
-    var prefix = "";
+FailPoint.prototype.set = function() {
     if (this._op == 'set') {
-        prefix = "Set: ";
         var cmd = {configureFailPoint: this._name, mode: this._mode};
         if (this._data) {
             cmd.data = this._data;
         }
-        printjson(db.adminCommand(cmd));
+        var res = db.adminCommand(cmd);
+        this._reset();
+        return res;
     }
+};
+
+FailPoint.prototype.get = function() {
     // report the current value
     this._curr = db.adminCommand({getParameter:'*'})["failpoint." + this._name];
+    return this._curr;
+};
+
+FailPoint.prototype.shellPrint = function() {
+    var prefix = "";
+    if (this._op == 'set') {
+        prefix = "Set: ";
+        printjson(this.set());
+    }
+    this.get();
     print(prefix + this);
-    this._reset();
 };
 
 
