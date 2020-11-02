@@ -7,7 +7,7 @@
 DB.prototype.ping = function (payload) {
 	var cmd = { ping: 1 };
 	if (typeof(payload) !== "undefined") {
-		cmd.payload = payload;
+		cmd.ping = payload;
 	}
 	return this.runCommand(cmd);
 };
